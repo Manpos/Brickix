@@ -6,7 +6,7 @@ public class Player : MonoBehaviour {
 
     public GameObject pala;
     // Use this for initialization
-    Vector3 moveup = new Vector3(0, 0.1f, 0);
+    Vector3 moveup = new Vector3(0, 0.03f, 0);
     
     public bool player1 = true;
     
