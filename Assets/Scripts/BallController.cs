@@ -26,27 +26,32 @@ public class BallController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(RB.velocity);
+        //Debug.Log(RB.velocity);
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "BoundariesTop"){
-            RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y * -1f, 0f);
+            RB.velocity = new Vector3((RB.velocity.normalized).x * ballVelocity, (RB.velocity.normalized).y * ballVelocity * -1f, 0f);
         }
         if (collision.gameObject.tag == "BoundariesBottom")
         {
-            RB.velocity = new Vector3(RB.velocity.x, RB.velocity.y * -1f, 0f);
+            RB.velocity = new Vector3((RB.velocity.normalized).x * ballVelocity, (RB.velocity.normalized).y * ballVelocity * -1f, 0f);
         }
 
         if (collision.gameObject.tag == "PlayerLeft"){
             float dist = this.transform.position.y - GameObject.Find("PlayerLeft").transform.position.y;
-            RB.velocity = new Vector3(ballVelocity, dist * 2, 0f);
+            RB.velocity = new Vector3(ballVelocity, dist * hitOffset, 0f);
         }
         if (collision.gameObject.tag == "PlayerRight")
         {
             float dist = this.transform.position.y - GameObject.Find("PlayerRight").transform.position.y;
             RB.velocity = new Vector3(-ballVelocity, dist * hitOffset, 0f);
+        }
+        Debug.Log(collision.gameObject.tag);
+        if (collision.gameObject.tag == "Brick")
+        {
+            RB.velocity = new Vector3((RB.velocity.normalized).x * ballVelocity * -1f, (RB.velocity.normalized).y * ballVelocity, 0f);
         }
 
         if (collision.gameObject.tag == "GoalLeft"){ scoreController.leftScore++; }
