@@ -5,19 +5,23 @@ using UnityEngine;
 
 
 
-public class Score : MonoBehaviour {
+public class ScoreUI : MonoBehaviour {
 
 	public Text scoreLeftText, scoreRightText;
 	private int scoreLeft, scoreRight;
+    private ScoreController scoreController;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+        scoreController = GameObject.Find("GameController").GetComponent<ScoreController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		scoreLeftText.text = (int)scoreLeft + "";
+        scoreLeft = scoreController.leftScore;
+        scoreRight = scoreController.rightScore;
+
+        scoreLeftText.text = (int)scoreLeft + "";
 		scoreRightText.text = (int)scoreRight + "";
 	}
 }
