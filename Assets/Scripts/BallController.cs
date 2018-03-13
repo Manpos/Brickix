@@ -26,15 +26,15 @@ public class BallController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(RB.velocity);
+        Debug.Log(RB.velocity.y);
 	}
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D (Collision2D collision)
     {
        if (collision.gameObject.tag == "Boundaries"){
-            RB.velocity = new Vector2(RB.velocity.x, RB.velocity.y);
+            Vector2 temp = new Vector2(RB.velocity.x, RB.velocity.y);
+            RB.velocity = temp.normalized * ballVelocity;
             //RB.velocity = new Vector2((RB.velocity.normalized).x * ballVelocity, -((RB.velocity.normalized).y * ballVelocity));
-            Debug.Log("Fuck");
         }
         /*if (collision.gameObject.tag == "BoundariesBottom")
         {
@@ -55,13 +55,21 @@ public class BallController : MonoBehaviour {
             float dist = this.transform.position.y - GameObject.Find("PlayerRight").transform.position.y;
             RB.velocity = new Vector2(-ballVelocity, dist * hitOffset);
         }
-        Debug.Log(collision.gameObject.tag);
-        /*if (collision.gameObject.tag == "Brick")
+        if (collision.gameObject.tag == "Brick")
         {
-            RB.velocity = new Vector3((RB.velocity.normalized).x * ballVelocity * -1f, (RB.velocity.normalized).y * ballVelocity, 0f);
-        }*/
+            Vector2 temp = new Vector2(-RB.velocity.x, RB.velocity.y);
+            RB.velocity = temp.normalized * ballVelocity;
+        }
 
-        if (collision.gameObject.tag == "GoalLeft"){ scoreController.leftScore++; }
-        if (collision.gameObject.tag == "GoalRight"){ scoreController.rightScore++; }
+        if (collision.gameObject.tag == "GoalLeft"){
+            scoreController.leftScore++;
+            Destroy(this.gameObject);
+            Debug.Log("Ball destroyed");
+        }
+        if (collision.gameObject.tag == "GoalRight"){
+            scoreController.rightScore++;
+            Destroy(this.gameObject);
+            Debug.Log("Ball destroyed");
+        }
     } 
 }
