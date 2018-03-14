@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BricksSpawner : MonoBehaviour {
     public GameObject brickPrefab;
-    public BoxCollider destroyer;
+    public BoxCollider2D destroyer;
     public float maxTime;
+    private float timeBetweenBricks = 0;
+    private bool flipFlop = false;
     private float timer;
     Queue<GameObject> brickLine;
     // Use this for initialization
@@ -20,25 +22,42 @@ public class BricksSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer = timer - Time.deltaTime;
-        if(timer <= 0 && brickLine.Count > 0)
+
+        // Check time between two blocks
+        if (flipFlop)
+        {
+            timeBetweenBricks += Time.deltaTime;
+        }
+        else if(!flipFlop && timeBetweenBricks > 0)
+        {
+            if ((Mathf.Floor(timeBetweenBricks * 10f)/10f) > maxTime)
+            {
+                brickLine.Enqueue(new GameObject());
+            }
+            Debug.Log(timeBetweenBricks);
+            timeBetweenBricks = 0;
+        }
+
+        // Spawns blocks every x time
+        if (timer <= 0 && brickLine.Count > 0)
         {
             GameObject brick = Instantiate(brickLine.Dequeue());
             brick.transform.position = transform.position;
             timer = maxTime;
         }
-        else if(brickLine.Count < 0)
+        else if(brickLine.Count < 0 && timeBetweenBricks != 0f)
         {
             timer = maxTime;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Brick")
+        if (collision.gameObject.tag == "Brick")
         {
-            brickLine.Enqueue(other.gameObject);
-            //Destroy(other.gameObject);
-            DestroyObject(other.gameObject, 10f);
+            flipFlop = !flipFlop;
+            brickLine.Enqueue(collision.gameObject);
+            DestroyObject(collision.gameObject, 10f);
         }
     }
 }

@@ -26,7 +26,7 @@ public class BallController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(RB.velocity.y);
+        //Debug.Log(RB.velocity.y);
 	}
 
     private void OnCollisionEnter2D (Collision2D collision)
@@ -36,17 +36,9 @@ public class BallController : MonoBehaviour {
             RB.velocity = temp.normalized * ballVelocity;
             //RB.velocity = new Vector2((RB.velocity.normalized).x * ballVelocity, -((RB.velocity.normalized).y * ballVelocity));
         }
-        /*if (collision.gameObject.tag == "BoundariesBottom")
-        {
-            RB.velocity = new Vector3((RB.velocity.normalized).x * ballVelocity, (RB.velocity.normalized).y * ballVelocity * -1f, 0f);
-        }*/
 
         if (collision.gameObject.tag == "PlayerLeft"){
             float dist = this.transform.position.y - GameObject.Find("PlayerLeft").transform.position.y;
-            /*if (collision.contacts.Length > 0) {
-                Vector2 variation = collision.contacts[0].point - collision.gameObject.transform.position;
-                variation.Normalize();
-            }*/
             RB.velocity = new Vector2(ballVelocity, dist * hitOffset);
             
         }
@@ -57,19 +49,19 @@ public class BallController : MonoBehaviour {
         }
         if (collision.gameObject.tag == "Brick")
         {
-            Vector2 temp = new Vector2(-RB.velocity.x, RB.velocity.y);
+            Vector2 temp = new Vector2(RB.velocity.x, RB.velocity.y);
             RB.velocity = temp.normalized * ballVelocity;
         }
 
         if (collision.gameObject.tag == "GoalLeft"){
             scoreController.leftScore++;
             Destroy(this.gameObject);
-            Debug.Log("Ball destroyed");
+            //Debug.Log("Ball destroyed");
         }
         if (collision.gameObject.tag == "GoalRight"){
             scoreController.rightScore++;
             Destroy(this.gameObject);
-            Debug.Log("Ball destroyed");
+            //Debug.Log("Ball destroyed");
         }
     } 
 }
