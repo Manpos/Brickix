@@ -54,12 +54,12 @@ public class BallController : MonoBehaviour {
         }
 
         if (collision.gameObject.tag == "GoalLeft"){
-            scoreController.leftScore++;
+            scoreController.rightScore++;
             Destroy(this.gameObject);
             //Debug.Log("Ball destroyed");
         }
         if (collision.gameObject.tag == "GoalRight"){
-            scoreController.rightScore++;
+            scoreController.leftScore++;
             Destroy(this.gameObject);
             //Debug.Log("Ball destroyed");
         }
