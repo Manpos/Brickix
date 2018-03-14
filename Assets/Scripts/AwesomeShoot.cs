@@ -27,7 +27,7 @@ public class AwesomeShoot : MonoBehaviour {
     }
     public void createPlanet()
     {
-        if (Player1 && Input.GetKeyDown(KeyCode.X) && counter < 5)
+        if (Player1 && Input.GetKeyDown(KeyCode.Space) && counter < 5)
         {
             ball.velocity = new Vector2(-2, 0);
 
@@ -38,7 +38,7 @@ public class AwesomeShoot : MonoBehaviour {
 
         }
 
-        if (Player2 && Input.GetKeyDown(KeyCode.Space) && counter < 5)
+        if (Player2 && Input.GetKeyDown(KeyCode.RightControl) && counter < 5)
         {
             ball.velocity = new Vector2(-2, 0);
 
