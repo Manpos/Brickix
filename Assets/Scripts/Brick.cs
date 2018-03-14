@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum BRICK_TYPE { HARD = 3, MID = 2, SOFT = 1};
+public enum DIRECTION { UP = 1, DOWN = -1};
 
 public class Brick : MonoBehaviour {
     public BRICK_TYPE type;
+    public DIRECTION dir;
     SpriteRenderer sprite;
+    BoxCollider2D boxCollider;
 	// Use this for initialization
 	void Start () {
+        boxCollider = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         type = (BRICK_TYPE)Mathf.FloorToInt(Random.Range(1f, 4f));
 
@@ -30,7 +34,7 @@ public class Brick : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(new Vector3(0, -1f * Time.deltaTime, 0));
+        transform.Translate(new Vector3(0, (float)dir * Time.deltaTime, 0));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,7 +55,11 @@ public class Brick : MonoBehaviour {
                     break;
             }
         }
-        else DestroyObject(gameObject);
+        else
+        {
+            boxCollider.isTrigger = true;
+            sprite.enabled = false;
+        }
         
     }
 
